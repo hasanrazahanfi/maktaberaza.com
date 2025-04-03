@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MAKTAB E RAZA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+      <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KL2C1FX73P"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KL2C1FX73P');
+</script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #ffffff;
+      }
+
+      .nav-black {
+        background: rgb(255, 255, 255);
+      }
+
+      .banner-text {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+        text-align: center;
+        text-shadow: 1px 1px 0px #333, 2px 2px 0px #444, 3px 3px 0px #555,
+          4px 4px 0px #666, 5px 5px 0px #777;
+      }
+
+      .search-section {
+        position: relative;
+        text-align: center;
+        color: white;
+        padding: 25px 0;
+      }
+
+      .search-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("https://i.ibb.co/HTKf6z9m/24b4f90fc828284537cb8ccd873274a4.jpg" )
+          no-repeat center center/cover;
+        opacity: 0.9;
+        z-index: -1;
+      }
+
+      /* Search Box */
+      .search-box {
+        display: flex;
+        align-items: center;
+        background: white;
+        padding: 6px;
+        border-radius: 15px;
+        width: 100%;
+        max-width: 350px;
+        margin: auto;
+        box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.8); /* Lighting Effect */
+      }
+
+      .search-box input {
+        flex: 1;
+        border: none;
+        outline: none;
+        padding: 6px;
+        font-size: 0.85rem;
+        border-radius: 15px;
+        text-align: center;
+        color: black;
+        background: transparent;
+      }
+
+      .search-box button {
+        background: #007bff;
+        color: white;
+        padding: 6px 10px;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+      }
+
+      .search-box button:hover {
+        background: #0056b3;
+      }
+
+      .book-card {
+        background: rgb(255, 255, 255);
+        padding: 12px;
+        border-radius: 8px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+        text-align: center;
+      }
+
+      .book-card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+
+      .book-card h3 {
+        font-size: 1rem;
+        font-weight: bold;
+        margin-top: 5px;
+      }
+
+      .book-card p {
+        font-size: 0.8rem;
+        color: gray;
+      }
+
+      .btn-group {
+        margin-top: 8px;
+        display: flex;
+        justify-content: center;
+        gap: 10px; /* Buttons ke beech gap */
+      }
+
+      .btn {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        color: white;
+      }
+
+      .btn-download {
+        background: #000000;
+      }
+
+      .btn-preview {
+        background: #310044;
+      }
+
+      .btn-download:hover {
+        background: #000000;
+      }
+
+      .btn-preview:hover {
+        background: #170124;
+      }
+      .footer {
+        background: #111;
+        color: white;
+        text-align: center;
+        padding: 15px 10px;
+        font-family: "Amiri", serif; /* Islamic Look */
+        /* font-family: 'Poppins', sans-serif; / / Modern Look */
+      }
+
+      .footer h2 {
+        margin: 5px 0;
+        font-size: 20px;
+      }
+
+      .footer p {
+        color: #bbb;
+        font-size: 12px;
+        margin: 5px 0;
+      }
+
+      /* Social Media Icons */
+      .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 10px 0;
+      }
+
+      .icon {
+        width: 35px;
+        height: 35px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: 0.3s ease;
+      }
+
+      .icon i {
+        font-size: 18px;
+      }
+
+      .icon:hover {
+        transform: scale(1.1);
+      }
+
+      /* Different Colors for Each Icon */
+      .icon:nth-child(1) i {
+        color: #1877f2;
+      } /* Facebook */
+      .icon:nth-child(2) i {
+        color: black;
+      } /* Twitter */
+      .icon:nth-child(3) i {
+        color: #e1306c;
+      } /* Instagram */
+      .icon:nth-child(4) i {
+        color: #d44638;
+      } /* Email */
+
+      .copyright {
+        color: #777;
+        font-size: 10px;
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navigation Bar -->
+    <header class="nav-white text-black shadow-md py-3">
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <div class="flex items-center">
+          <img
+            src="https://i.ibb.co/67gFrJ0R/IMG-20250402-WA0063.jpg"
+            alt="Logo"
+            class="w-14 h-14 rounded-full mr-2"
+          />
+          <span class="text-lg font-bold"></span>
+        </div>
+
+        <nav class="flex space-x-4 text-sm">
+          <a class="hover:underline hover:text-gray-300" href="index.htm"
+            >Home</a
+          >
+          <a class="hover:underline hover:text-gray-300" href="Books.html"
+            >Books</a
+          >
+          <a class="hover:underline hover:text-gray-300" href="naats.html"
+            >Naats</a
+          >
+          <a class="hover:underline hover:text-gray-300" href="about.html"
+            >About</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <!-- Banner Section -->
+    <div class="relative w-full h-40">
+      <div class="search-section">
+        <h1 class="banner-text">MAKTAB E RAZA LIBRARY</h1>
+        <p class="text-xs font-medium">AUTHENTIC BOOKS OF AHLE SUNNAT WAL JAMAAT BOOKS</p>
+
+        <!-- Search Bar -->
+        <div class="search-box mt-2">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search books..."
+            onkeyup="searchBooks()"
+          />
+          <button><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ahem Books Section -->
+    <section class="py-8 bg-gray-100 text-gray-900">
+      <div class="container mx-auto px-4">
+        <h2 class="text-xl font-bold text-center mb-4">Importants Books</h2>
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"
+        >
+          <!-- Book 1 -->
+          <div class="book-card">
+            <img
+              src="https://i.ibb.co/mVmkpvVc/Screenshot-20250306-214752-cropped.png"
+              alt="Nuzhatul Qari Sarah Bukhari"
+            />
+            <h3>Nuzhatul Qari Sarah Bukhari</h3>
+            <p>Author: Imam Bukhari</p>
+            <p><strong>Language:</strong> Urdu</p>
+            <div class="btn-group">
+              <a
+                href="https://drive.google.com/uc?export=download&id=1Lqnc5y7d9DssdGqLha523kbrfu1QCu2V"
+                class="btn btn-download"
+                >Download</a
+              >
+              <a
+                href="https://drive.google.com/file/d/1Lqnc5y7d9DssdGqLha523kbrfu1QCu2V/view"
+                class="btn btn-preview"
+                >Preview</a
+              >
+            </div>
+          </div>
+
+          <!-- Book 2 -->
+          <div class="book-card">
+            <img
+              src="https://i.ibb.co/1Yw7C2BN/Screenshot-20250318-220450-cropped.png"
+              alt="Seerat e Mustafa"
+            />
+            <h3>Seerat e Mustafa</h3>
+            <p>Author:Allama Abdul Mustafa Azmi</p>
+            <p><strong>Language:</strong>Roman</p>
+            <div class="btn-group">
+              <a
+                href="https://drive.google.com/uc?export=download&id=1IkcHoNm7amwymWlxHC3c7aHo4g_6v0i_"
+                class="btn btn-download"
+                >Download</a
+              >
+              <a
+                href="https://drive.google.com/file/d/1IkcHoNm7amwymWlxHC3c7aHo4g_6v0i_/view"
+                class="btn btn-preview"
+                >Preview</a
+              >
+            </div>
+          </div>
+
+          <!-- Book 3 -->
+          <div class="book-card">
+            <img
+              src="https://i.ibb.co/ks6C1Ckn/Screenshot-20250318-224550-cropped.png"
+              alt="Qanoon e Shariat"
+            />
+            <h3>Qanoon e Shariat</h3>
+            <p>Author: Allama Shamshuddin Ahmed Jonpuri</p>
+            <p><strong>Language:</strong>Hindi</p>
+            <div class="btn-group">
+              <a
+                href="https://drive.google.com/uc?export=download&id=1TPOJxWuziR7TfGfa4IjbsQ0HvUWuZUgh"
+                class="btn btn-download"
+                >Download</a
+              >
+              <a
+                href="https://drive.google.com/file/d/1TPOJxWuziR7TfGfa4IjbsQ0HvUWuZUgh/view"
+                class="btn btn-preview"
+                >Preview</a
+              >
+            </div>
+          </div>
+          <!-- Book 4 -->
+          <div class="book-card">
+            <img
+              src="https://i.ibb.co/YTQ0LMNn/Screenshot-20250318-225019-cropped.png"
+              alt="Al Haq Ul Mubeen"
+            />
+            <h3>Al Haq Ul Mubeen</h3>
+            <p>Author:Huzoor Tajushariya Alaihi Rahma</p>
+            <p><strong>Language:</strong>Arabic</p>
+            <div class="btn-group">
+              <a
+                href="https://drive.google.com/uc?export=download&id=1TYz6AbdUfY8EoipXbZTLpZvlrq1HvWyI"
+                class="btn btn-download"
+                >Download</a
+              >
+              <a
+                href="https://drive.google.com/file/d/1TYz6AbdUfY8EoipXbZTLpZvlrq1HvWyI/view"
+                class="btn btn-preview"
+                >Preview</a
+              >
+            </div>
+          </div>
+          <!-- Book 5 -->
+          <div class="book-card">
+            <img
+              src="https://i.ibb.co/PRDsb29/Screenshot-20250318-225313-cropped.png"
+              alt="SahihUl Bukhari-first & Last Hadith"
+            />
+            <h3>SahihUl Bukhari-first & Last Hadith</h3>
+            <p>Author:Imam Bukhari</p>
+            <p><strong>Language:</strong>English</p>
+            <div class="btn-group">
+              <a
+                href="https://drive.google.com/uc?export=download&id=1T_kE7wjCbMeORxZ9iDYjcikkiTCHFd4l"
+                class="btn btn-download"
+                >Download</a
+              >
+              <a
+                href="https://drive.google.com/file/d/1T_kE7wjCbMeORxZ9iDYjcikkiTCHFd4l/view"
+                class="btn btn-preview"
+                >Preview</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+      function searchBooks() {
+        let input = document.getElementById("searchInput").value.toLowerCase();
+        let books = document.getElementsByClassName("book-card");
+
+        for (let i = 0; i < books.length; i++) {
+          let title = books[i]
+            .getElementsByTagName("h3")[0]
+            .innerText.toLowerCase();
+          let author = books[i]
+            .getElementsByTagName("p")[0]
+            .innerText.toLowerCase();
+
+          if (title.includes(input) || author.includes(input)) {
+            books[i].style.display = "block";
+          } else {
+            books[i].style.display = "none";
+          }
+        }
+      }
+    </script>
+    <head>
+    <footer class="footer">
+      <h2>MAKTAB E RAZA</h2>
+      <p>Multiple Languages: Urdu, Roman, English, Arabic,Hindi</p>
+
+      <!-- Social Media Icons -->
+      <div class="social-icons">
+        <a href="#" class="icon"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="icon"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="icon"><i class="fab fa-instagram"></i></a>
+        <a href="mdhasanraza.in@gmail.com" class="icon"
+          ><i class="fas fa-envelope"></i
+        ></a>
+      </div>
+
+      <p class="copyright">© 2025 Maktab e Raza. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

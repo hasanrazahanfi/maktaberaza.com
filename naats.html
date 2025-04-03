@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Naats - Maktabatur Razaviyyah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        background: #e7e5e5d3;
+        color: rgb(0, 0, 0);
+        font-family: Arial, sans-serif;
+        overflow-x: hidden;
+      }
+      .container {
+        max-width: 800px;
+        max-height: 300px;
+        margin: auto;
+        padding: 20px;
+      }
+      .search-box {
+        width: 100%;
+        padding: 12px;
+        border: 3px solid rgb(78, 1, 1);
+        border-radius: 25px;
+        font-size: 16px;
+        color: rgb(255, 171, 171);
+        height: 42px;
+        transition: 0.3s;
+      }
+      .search-box:focus {
+        box-shadow: 0 0 12px rgb(0, 88, 8);
+        outline: none;
+      }
+      .naat-list li {
+        background: #ffffff;
+        padding: 14px;
+        margin: 6px 0;
+        border-radius: 14px;
+        cursor: pointer;
+        transition: 0.3s ease-in-out;
+        border: 3px solid transparent;
+      }
+      .naat-list li:hover {
+        border-color: rgb(214, 241, 90);
+        box-shadow: 0 0 12px rgb(63, 0, 0);
+      }
+      .naat-content {
+        display: none;
+        background: white;
+        color: black;
+        padding: 20px;
+        margin-top: 10px;
+        border-radius: 14px;
+        text-align: justify;
+        border: 3px solid rgb(7, 199, 65);
+        box-shadow: 0 0 15px rgb(2, 165, 24);
+        white-space: pre-line;
+      }
+      .copy-btn {
+        background: black;
+        color: white;
+        padding: 10px;
+        border-radius: 14px;
+        width: 100%;
+        font-size: 16px;
+        border: 3px solid rgba(0, 255, 0, 0.5);
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 10px;
+      }
+      .copy-btn:hover {
+        box-shadow: 0 0 12px rgba(0, 255, 0, 0.6);
+      }
+      .pagination {
+        text-align: center;
+        margin-top: 15px;
+      }
+      .pagination button {
+        background: black;
+        color: white;
+        padding: 10px 14px;
+        border-radius: 10px;
+        cursor: pointer;
+        border: 3px solid rgba(0, 255, 0, 0.5);
+        transition: 0.3s;
+      }
+      .pagination button:hover {
+        box-shadow: 0 0 12px rgba(0, 255, 0, 0.6);
+      }
+      .pagination button:disabled {
+        background: #555;
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-2xl font-bold text-center mb-4">📜 Naats Collection</h1>
+
+      <!-- Search Box -->
+      <input
+        type="text"
+        class="search-box"
+        id="searchInput"
+        onkeyup="searchNaats()"
+        placeholder="Search Naat..."
+      />
+
+      <ul class="naat-list" id="naatList"></ul>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <button onclick="prevPage()" id="prevBtn" disabled>⬅️ Previous</button>
+        <span id="pageNumber">1</span>
+        <button onclick="nextPage()" id="nextBtn">Next ➡️</button>
+      </div>
+    </div>
+
+    <script>
+      const naats = [
+        {
+          title: "Habib-e-Khuda ka nazaara karoon mein",
+          content: `Habib-e-Khuda ka nazaara karoon mein\nDil-o-jaan un par nisaara karoon mein.\n
+          Teri kafshe pa yu savaara karoon mein\nKe palko se usko buhaara karoon mein.\n
+          Mera deen-o-iman farishte jo puche\nTumhari hi janib ishaara karoon mein.\n
+          Yeh ek jaan kiya hai agar ho karoron\nTere naam par sab ko wara karoon mein.\n
+          Tere naam par sar ko qurbaan karke\nTere sar se sadqe utaara karoon mein.\n
+          Mein kiyu ghair ki thokre khane jao\nTere dar se apna guzaara karoon mein\n
+          Tera zikr lab par Khuda dil ke andar\nYuhi zindagani guzaara karoon mein\n
+Khuda khair se laye wo din bhi Noori\nMadine ki galiya buhaara karoon mein`,
+        },
+        {
+          title: "Tu Shamme Risalat Hain Aalam Tera Parwana",
+          content: `Tu Shamme Risalat Hain Aalam Tera Parwana\nTu Mahe Nubuvvat Hain Ay Jalwa E Janana\n
+Jo Saaqi E Kausar Ke Chehre Se Nikaab Uththe\nHar Dil Bane Maikhana Har Aankh Ho Paymana\n
+Dil Apna Chamak Utthe Imaan Ki Tal'at Se\nKar Aankhein Bhi Noorani Ay Jalwa E Jaanana\n
+Kyu Zulfe Muambar Se Kooche Na Mahak Uthe\nHe Panja Qudrat Jab Zulfo Ka Tere Shaana\n
+Tum Aye Chati Baazi Ronak Huwi Phir Taazi\nKaaba Hua Phir Kaaba Kar Daala Tha Butt Khana\n
+Peete Hain Tere Dar Ka, Khate Hain Tere Dar Ka\nPani Hain Tera Pani, Dana Hain Tera Dana\n
+Sarshar Ise Kar De Ik Jaam E Labalab Se\nTaa Hashr Rahe Saaqi Aabad Ye Maikhana\n
+Is Darr Ki Huzoori Hi Isyan Ki Dawa Thahri\nHai Zehre Ma Aasi Ka Taibah Hi Shifa Khaana\n
+Har Phool Me Boo Teri Har Sham-A Me Zao Teri\nBulbul Hai Tera Bulbul Parwaana Hai Parwaana\n
+Duniya Mein Hume Tum Ne Jab Apna Banaaya Hai\nMehshar Me Bhi Keh Dena Yeh Hai Mera Deewana\n
+Gir Pad Ke Yaha Pohcha, Mar Mar Ke Ise Paya\nChute Na Ilahi Ab, Sange Dare Jaana Na\n
+Sange Dare Jaana Hain, Thokar Na Lage Kisko\nAy Kash Wo Sun Lete, Mujhse Mera Afsana\n
+Sange Dare Jaana Par, Karta Hu Jabee Sayi\nSajda Na Samajh Najdi, Sar Deta Hu Nazrana\n
+Woh Kehte Na Kehte Kuch Woh Karte Na Karte Kuch\nAy Kash Wo Sunn Lete Mujh Se Mera Afsana\n
+Sarkaar Ke Jalwon Se, Roushan Hain Dile Noori\nTa Hashr Rahe Roshan, Noori Ke Ye Kaash Aana`,
+        },
+        {
+          title: "Chamak Tujhse Paate Hain Sab Paane Waale",
+          content: `Chamak Tujhse Paate Hain Sab Paane Waale\nMera Dil Bhi Chamka De Chamkane Waale\n
+          Barasta Nahi Dekh Kar Abr E Rehmat\nBadoo(n) Par Bhi Barsa De Barsane Waale\n
+Madine Ke Khitte Khuda Tujhko Rakhhe\nGhareebo Faqeero Ke Thehrane Waale\n
+Tu Zinda Hai WALLAH Tu Zinda Hai WALLAH\nMere Chashme Aalam Se Chup Jaane Waale\n
+Me Mujrim Hu AAQA Mujhe Saath Le Lo\nKe Raste Me Hai Jaa Baja Thane Waale\n
+Haram Ki Zamee(n) Aur Qadam Rakh Ke Chalna\nAre Sar Ka Mouqa Hai O Jaane Waale\n
+Chal Uth Zabah Farsa Ho Saaki Ke Dar Par\nDar E Jood Hai Mere Mastane Waale\n
+Tera Khaye Tere Ghulamo Se Uljhe\nHai Munkir Ajab Khaane Gurrane Waale\n
+Rahega Yu Hi Unka Charcha Rahega\nPade Khaaq Ho Jaye Jal Jaane Waale\n
+Ab Aayi Shafaat Ki Saat Ab Aayi\nZara Chain Le Mere Ghabhrane Waale\n
+Raza Nafs Dushman Hai Dumme Na Aana\nKaha Tumne Dekhe Hai Chandrane Waale`,
+        },
+        {
+          title: "Sunte hain ki mehshar mein sirf unki rasai hai",
+          content: `Sunte hain ki mehshar mein sirf unki rasai hai
+Gar unki rasaaee hai lo jab to ban aayi hai
+
+Machla hai ki rehmat ne ummeed bandhai hai
+Kya baat teri mujrim kya baat banai hai
+
+Sab ne safe mehshar mein lalkaar diya hum ko
+Aye bekason ke Aaqa ab teri duhai hai
+
+Yun to sab unhi ka hai par dil ki agar poocho
+Yeh toote hue dil hi khaas unki kamai hai
+
+Zaair gaye bhi kab ke din dhalne pe hai pyaare
+Uth mere akele chal kya der lagaaee hai
+
+Baazare amal mein toh sauda na bana apna
+Sarkar karam tujh mein aibee ki samai hai
+
+Girte huwo ko muzda sajde mein gire Maula
+Ro Ro ke shafa at ki tamheed uthai hai
+
+Aye dil yeh sulagna kya jalna hai to jal bhi uth
+Dum ghutne laga zaalim kya dhooni ramai hai
+
+Mujrim ko na sharmao ahbaab kafan dhak do
+Muh dekh ke kya hoga parde mein bhalai hai
+
+Ab aap hi sambhalein toh kaam apne sambhal jaayein
+Humne to kamai sab khelon mein ganwai hai
+
+Aye ishq tere sadqe jalne se choote saste
+Joh aag bujha degi woh aag lagai hai
+
+Hirso hawase bad se dil tu bhi sitam kar le
+Tu hi nahi begana dunya hi parai hai
+
+Hum dil jale hain kiske haat fitnon ke parkaale
+Kyun foonk du ik uf se kya aag lagai hai
+
+Taiba na sahi Afzal Makkah hi bada zaahid
+Hum ishq ke bande hain kyun baat badhai hai`,
+        },
+        {
+          title: "Ya Rasoolallah Tere Chahne Walo Ki Khair",
+          content: `Ya Rasoolallah Tere Chahne Walo Ki Khair
+Assalatu Wassalam Alaika Ya Rasoolallah
+Assalatu Wassalam Alaika Ya Habiballah
+
+Sab Gulamo Ka Bhala Ho
+Sab Kare Taiba Ki Sair
+
+Ya Rasoolallah Tere Chahne Walo Ki Khair
+Assalatu Wassalam Alaika Ya Rasoolallah
+Assalatu Wassalam Alaika Ya Habiballah
+
+Batla Do Gustakh E Nabi Ko
+Ghairat E Muslim Zinda Hai
+Unpar Mar Mitne Ka Jazba
+Kal Bhi Tha Aur Aaj Bhi Hai
+
+Ya Rasoolallah Tere Chahne Walo Ki Khair
+Assalatu Wassalam Alaika Ya Rasoolallah
+Assalatu Wassalam Alaika Ya Habiballah
+
+Mai Wo Sunni Hu
+Jamil E Qadri Marne Ke Baad
+Mera Laasha Bhi Kahega
+Assalaatu Wassalaam
+
+Ya Rasoolallah Tere Chahne Walo Ki Khair
+Assalatu Wassalam Alaika Ya Rasoolallah
+Assalatu Wassalam Alaika Ya Habiballah
+
+Lap Pe Naat E Paak Ka Nagma
+Kal Bhi Tha Aur Aaj Bhi Hai
+Mere Nabi Se Mera Rishta
+Kal Bhi Tha Aur Aaj Bhi Hai
+
+Ya Rasoolallah Tere Chahne Walo Ki Khair
+Assalatu Wassalam Alaika Ya Rasoolallah
+Assalatu Wassalam Alaika Ya Habiballah
+
+Ya Rasoolallah Ke Naare
+Se Humko Pyaar Hai
+Hum Ne Yeh Naara Lagaya
+Apna Beda Paar Hai
+
+Ya Rasoolallah Tere Chahne Walo Ki Khair
+Assalatu Wassalam Alaika Ya Rasoolallah
+Assalatu Wassalam Alaika Ya Habiballah
+
+Mere Lahoo Ka Qatra Qatra
+Bole Ya Rasoolallah
+Mere Watan Ka Bacha Bacha
+Bole Ya Rasoolallah
+
+Ya Rasoolallah Tere Chahne Walo Ki Khair
+Assalatu Wassalam Alaika Ya Rasoolallah
+Assalatu Wassalam Alaika Ya Habiballah
+
+But Shikan Aaya Yeh Keh Kar
+Sar Ke Bal But Gir Pade
+Jhumkar Kehta Tha Kaaba
+Assalaatu Wassalaam
+
+Ya Rasoolallah Tere Chahne Walo Ki Khair
+Assalatu Wassalam Alaika Ya Rasoolallah
+Assalatu Wassalam Alaika Ya Habiballah`,
+        },
+        {
+          title: "Unki Mahak Ne Dil Ki Gunche Khila Diye Hai",
+          content: `Unki Mahak Ne Dil Ki Gunche Khila Diye Hai
+Jis Raah Chal Diye Kunche Basa Diye Hai.
+
+Jab Aa Gayi Hai Joshe Rehmat Per Unki Ankhen
+Jalte Buja Diye Hai, Rote Hansa Diye Hai.
+
+Ek Dil Hamara Kya Hai, Aazaar Uska Kitna
+Tumne To Chalte Phirte Murde Jila Diye Hai.
+
+Unke Nisar Koi Kaisi Hi Ranj May Ho
+Jab Yaad Aa Gaye Hai Sab Gam Bhoola Diye Hai.
+
+Humse Faqir Bhi Abb Feri Ko Oothte To Honge,
+Abb To Gani Ke Dar Pe Bistar Jama Diye Hai.
+
+Asra May Guzre Jis Dam Baide Pe Qudsiyo Ke,
+Hone Lagi Salami Parcham Jhooka Diye Hai.
+
+Aane Do Ya Doobo Do Abb TO Tumhari Jaanib,
+Kasti Tumhi Pe Chhodi Lanagr Ootha Diye Hai.
+
+Dulha Se Itna Keh Do Pyare Sawari Roko,
+Mushkil May Hai Baraati Purkhaar Wadiye Hai.
+
+Allah Kya Jahannam Abb Na Shard Hoga,
+Ro Ro Ke Mustafa Ne Dariya Baha Diye Hai.
+
+Mere Karim Se Gar Khatra Kisi Ne Manga,
+Dariye Baha Diye Hai Dur Be Baha Diye Hai.
+
+Mulke Shuqan Ke Shahi Tumko RAZA Mussllam
+Jis Simt Aa Gaye Ho Sikke Bitha Diya Hai`,
+        },
+        {
+          title: "Tere damane karam me jise neend aa gayi hai",
+          content: `Tere damane karam me jise neend aa gayi hai
+Jo fana na hogi aisi use zindagi mili hai.
+
+Mujhe kya padi kisi se karu arz muddha mai
+Meri lau to bas unhi ke darjood se lagi hai.
+
+Wo jahan bhar ke daata mujhe fer denge khaali
+Meri tauba ai khuda ye mere nafs ki badi hai.
+
+Mai maru to mere maula ye malaika se keh de
+Koi is ko mat jagana abhi aankh lagi hai.
+
+Mai gunahgaar hu aur bade martabon ki khahish
+Tu magar Karim hai jo teri banda parwari hai.
+
+Teri yaad thapki dekar mujhe ab shahashala de
+Mujhe jaagte hue yoon badi der ho gayi hai.
+
+Tera dile shakta Akhtar isi intezaar me hai
+Ki abhi naweede wislat tere dar se aa rahi hai`,
+        },
+        {
+          title: "Zarre Jarr Kar Teri Paizaaro Ke",
+          content: `Zarre Jarr Kar Teri Paizaaro Ke
+Taaj E Sarr Bante Hai Sayyaro Ke
+
+Hum Se Chooro Pe Jo Farmaye Karam
+Khala at E Zarr Bane Pashtaar O Ke
+
+Mere Aaqa Ko Wo Dar Hai Jis Par
+Maathe Ghiss Jaate Hai Sardar O Ke
+
+Mere Ishaa Tere Sadqe Jaau
+Toor Be Toor Hai Beemaar O Ke
+
+Mujrim O Chashm E Tabassum Rakho
+Phool Banjaate Hai Angaar O Ke
+
+Tere Abroo Ke Tassaduq Pyare
+Bandh Kule Hain Gar Iftar O Ke
+
+Jaan O Dil Tere Qadam Par Waarey
+Kya Naseebey Hai Tere Yaar O Ke
+
+Sidq O Adl O Karam O Himmat Me
+Chaar Soo Shohrey Hai In Chaar O Ke
+
+Behr E Tasleem Ali Maidaa n Me
+Sar Jhuke Rehte Hai Talwar O Ke
+
+Kaise Aaqao Ka Banda Hu Raza
+Bol Baale Meri Sarkar O Ke`,
+        },
+        {
+          title: "Aasiyo ko dar tumhara mil gaya",
+          content: `Aasiyo ko dar tumhara mil gaya
+Be thikano ko thikana mil gaya
+
+Fazle rab se fir kami kis baat ki
+Mil gaya sab kuchh jo Tayba mil gaya
+
+Kashf-e-roze mar rahani yu hua
+Tum mile to haq Taala mil gaya
+
+Unke darne sabse mustagni kiya
+Be talab be khvahish itna mil gaya
+
+Na-khudai ke liye aae huzur
+Dubato niklo sahara mil gaya
+
+Ankhe purnam hogai sar juk gaya
+Jab tera naksh-e-kaf e pa mil gaya
+
+Khuld kesa kya chaman kiska vatan
+Mujko sehra-e-madina mil gaya
+
+Unke talib ne jo chaha paliya
+Unke saeel ne jo manga mil gaya
+
+Tere darke tukde hai aur me garib
+Mujko rozi ka thikana mil gaya
+
+Ae HASAN fir to sune jae janab
+Ham ko sehra-e-madina mil gaya`,
+        },
+        {
+          title: "Mustafa e Zaate yakta Aap haiñ",
+          content: `Mustafa e Zaate yakta Aap haiñ
+Yak ne jisko yak banaaya Aap haiñ
+
+Aap jaisa koi ho sakta nahiñ
+Apni har khoobi meiñ tanha Aap haiñ
+
+Aabo gil meiñ noor ki pehli kiran
+Jaane Aadam Jaane Hawwa Aap haiñ
+
+La Makaañ tak jis ki phaili Raushni
+Wo Charaage Aalam Aara Aap haiñ
+
+Hai Namak jis ka khameer e husn meiñ
+Wo Maleehe husn Aara Aap haiñ
+
+Naazish e Arsho waqaar e Arshiyaañ
+Saahibe qausain o adna Aap haiñ
+
+Aap ki Tal at Khuda ka aaina
+Jis meiñ chamke Haq ka Jalwa Aap haiñ
+
+Aap ko Rab ne kiya apna Habeeb
+Saari khalqat ka Khulaasa Aap haiñ
+
+Aap ki khaatir banaaye do jahaañ
+Apni khaatir jo banaaya Aap haiñ
+
+Jaañ tui Jaanaañ Qaraare Jaañ tui
+Jaane Jaañ Jaane Maseeha Aap haiñ
+
+Aap se khud aap ka saail huñ maiñ
+Jaane Jaañ meri tamanna Aap haiñ
+
+Aap ki Tal at ko dekha jaan di
+Qabr meiñ pahuñcha to dekha Aap haiñ
+
+Bar Darat Aamad gadaa behre Sawaal
+Ho bhalaa AKHTAR ka daata Aap haiñ`,
+        },
+      ];
+
+      let currentPage = 1;
+      const naatsPerPage = 10;
+
+      function showNaats() {
+        let start = (currentPage - 1) * naatsPerPage;
+        let end = start + naatsPerPage;
+        let paginatedNaats = naats.slice(start, end);
+
+        document.getElementById("naatList").innerHTML = paginatedNaats
+          .map(
+            (naat, index) =>
+              `<li onclick="showNaat(this, ${start + index})">${naat.title}
+                          <div class="naat-content" style="display:none;">
+                              <h2 class="text-xl font-bold mb-2">${
+                                naat.title
+                              }</h2>
+                              <p>${naat.content}</p>
+                              <button class="copy-btn" onclick="copyNaat('${
+                                naat.content
+                              }')">📋 Copy</button>
+                          </div>
+                      </li>`
+          )
+          .join("");
+
+        document.getElementById("prevBtn").disabled = currentPage === 1;
+        document.getElementById("nextBtn").disabled = end >= naats.length;
+        document.getElementById("pageNumber").innerText = currentPage;
+      }
+
+      function showNaat(element, index) {
+        let naatContent = element.querySelector(".naat-content");
+        if (naatContent.style.display === "none") {
+          document
+            .querySelectorAll(".naat-content")
+            .forEach((content) => (content.style.display = "none"));
+          naatContent.style.display = "block";
+        } else {
+          naatContent.style.display = "none";
+        }
+      }
+
+      function copyNaat(content) {
+        navigator.clipboard.writeText(content).then(() => {
+          alert("✅ Naat copied successfully!");
+        });
+      }
+
+      function nextPage() {
+        if (currentPage * naatsPerPage < naats.length) {
+          currentPage++;
+          showNaats();
+        }
+      }
+
+      function prevPage() {
+        if (currentPage > 1) {
+          currentPage--;
+          showNaats();
+        }
+      }
+
+      function searchNaats() {
+        let input = document.getElementById("searchInput").value.toLowerCase();
+        document.querySelectorAll(".naat-list li").forEach((li) => {
+          li.style.display = li.innerText.toLowerCase().includes(input)
+            ? "block"
+            : "none";
+        });
+      }
+
+      showNaats();
+    </script>
+  </body>
+</html>

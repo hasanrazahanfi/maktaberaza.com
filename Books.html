@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maktabatur Razaviyyah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background: #f9f9f9;
+            color: black;
+            font-family: 'Poppins', sans-serif;
+        }
+        .card {
+            border-radius: 12px;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 0 10px #f76262;
+            transition: 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px #ff5151;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f1f1f1;
+            padding: 8px;
+            border-radius: 50px;
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            border: 3px solid #490101;
+            box-shadow: 0 0 10px #410000;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 50px 0 0 50px;
+            outline: none;
+            font-size: 16px;
+            text-align: center;
+            background: #f1f1f1;
+            color: black;
+        }
+        .search-btn {
+            background: #4b0101;
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 0 50px 50px 0;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .search-btn:hover {
+            background: #3d0101;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination button {
+            background-color: #3d0101;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .pagination button:hover {
+            background-color: #050505;
+        }
+        .rounded-img {
+            border-radius: 10px;
+        }
+        .book-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .book-buttons a {
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-read {
+            background: black;
+        }
+        .btn-download {
+            background: rgb(66, 2, 77);
+        }
+        .btn-read:hover {
+            background: grey;
+        }
+        .btn-download:hover {
+            background: darkblue;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="flex items-center justify-center p-4 border-b shadow-lg">
+        <h1 class="text-2xl font-bold">Book Library Multiple Languages</h1>
+    </header>
+
+    <main class="text-center p-6">
+        <h1 class="text-3xl font-bold mb-2">
+            AUTHENTIC BOOKS OF <span class="text-red-800"> AHLE SUNNAT </span> WAL JAMAAT
+        </h1>
+        <p class="text-gray-400 mb-6">Multiple Languages Like, Urdu, Roman, Hindi, English, Arabic </p>
+        
+        <!-- Search Bar -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search by Title, Author, or Language">
+            <button class="search-btn" id="searchButton"><i class="fas fa-search"></i></button>
+        </div>
+
+        <div id="books-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"></div>
+
+        <div class="pagination">
+            <button id="prevPage">⬅ Previous</button>
+            <button id="nextPage">Next ➡</button>
+        </div>
+    </main>
+
+    <script>
+        const books = [
+        {
+                "title": "Sahih Bukhari",
+                "author": "Imam Bukhari",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/0RLTH3bP/Screenshot-20250306-214752-cropped.png",
+                "previewLink": "https://drive.google.com/file/d/1Lqnc5y7d9DssdGqLha523kbrfu1QCu2V/view" ,
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1Lqnc5y7d9DssdGqLha523kbrfu1QCu2V"
+            },
+            {
+                "title": "Aasar e Qayamat",
+                "author": "Huzoor Tajushariya Alaihi Rahma",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/bG9GvH6/Screenshot-20250315-200240-cropped.png",
+                "previewLink": "https://drive.google.com/file/d/1JGIa58du4gT_dIEzeOfhrWbQFlK-2Mg_/preview" ,
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1JGIa58du4gT_dIEzeOfhrWbQFlK-2Mg_" 
+            },
+            {
+                "title": "Jaa Al Haq",
+                "author": "Mufti Ahmed Yaar Khan Naeimi",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/Kp4rNtDS/Screenshot-20250315-204314-cropped.png" ,
+                "previewLink": "https://drive.google.com/file/d/1NtwbmpN0mYu2iZx5r5GKD61Z3mz9fW-c/preview",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1NtwbmpN0mYu2iZx5r5GKD61Z3mz9fW-c"
+            },
+            {
+                "title": "Kanzul Iman (Roman)",
+                "author": "Huzoor Ala Hazrat Alaihi Rahma",
+                "language": "Roman",
+                "img": "https://i.ibb.co/VWPgpVKp/Screenshot-20250306-025346-cropped.png",
+                "previewLink": "https://drive.google.com/file/d/1Iw0IbWbQm60_MMAgKo_U-GI7qHPeajBs/preview" ,
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1Iw0IbWbQm60_MMAgKo_U-GI7qHPeajBs"
+            },
+            {
+                "title": "Qanoon e Shariat",
+                "author": "Allama Shamshuddin Ahmed Jonpuri",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/xKXs6q2R/Screenshot-20250315-204812-cropped.png",
+                "previewLink": "https://drive.google.com/file/d/1NvO7gIY_lx2yeYFS9LeXyfbVhCqLIDO2/preview",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1NvO7gIY_lx2yeYFS9LeXyfbVhCqLIDO2"
+            },
+            {
+                "title": "Rafziyo Ka Radd",
+                "author": "Huzoor Ala Hazrat Alaihi Rahma",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/gMqcH2Rq/Screenshot-20250315-205451-cropped.png" ,
+                "previewLink": "https://drive.google.com/file/d/1Iwa52zvuKa6y9KUcTMQc14rj61oJLf0b/preview",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1Iwa52zvuKa6y9KUcTMQc14rj61oJLf0b"
+            },
+            {
+                "title": "Shifa Shareef",
+                "author": "Imam Qazi Ayaz Maliki",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/SXdRhGtq/Screenshot-20250315-205752-cropped.png",
+                "previewLink": "https://drive.google.com/file/d/1Nu-Ee_VW9lM00wQMYi4-Qmu51A5ZXTHk/preview",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1Nu-Ee_VW9lM00wQMYi4-Qmu51A5ZXTHk"
+            },
+            {
+                "title": "Tafseer Surah Fatiha",
+                "author": "Allama Turab UL haq",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/d09Dcz64/Screenshot-20250315-210000-cropped.png" ,
+                "previewLink": "https://drive.google.com/file/d/1JTfoIxZ129Lp3Qs_Ro0uhkUbXHFG93xP/preview" ,
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1JTfoIxZ129Lp3Qs_Ro0uhkUbXHFG93xP"
+            },
+            {
+                "title": "Tirmizi Shareef",
+                "author": "Imam Abu Eisa Tirmizi",
+                "language": "Roman",
+                "img": "https://i.ibb.co/7tNfJPQ7/Screenshot-20250315-210233-cropped.png" ,
+                "previewLink": "https://drive.google.com/file/d/1J5-xppyhqsGgmwxBLDUh8uGIPH63WjLn/preview",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1J5-xppyhqsGgmwxBLDUh8uGIPH63WjLn" 
+            },
+            {
+                "title": "Zalzala",
+                "author": "Allama Arshad ul Qadri ",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/qMfYyZ0w/Screenshot-20250315-210523-cropped.png",
+                "previewLink": "https://drive.google.com/file/d/1K3-5JCGEvsBo_0P096GYYAvQEBa-tKps/preview",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1K3-5JCGEvsBo_0P096GYYAvQEBa-tKps" 
+            },
+            {
+                "title": "Al- Khasais Ul Kubra",
+                "author": "Allama Jalaluddin Siyuti ",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/gh9pZjN/Screenshot-20250318-204703-cropped.png" ,
+                "previewLink":"https://drive.google.com/file/d/1NIuihmDYU9EO_hZWB6A-nsAV7r3-zGmy/view",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1NIuihmDYU9EO_hZWB6A-nsAV7r3-zGmy"
+            },
+            {
+                "title": "Buzurgon Ke Aqeeday",
+                "author": "Mufti Jalaluddin Amjadi Alahi Rahma",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/BH3N6Jtz/Screenshot-20250318-205244-cropped.png" ,
+                "previewLink": "https://drive.google.com/file/d/1O63ubeAEDrJ5PEJJVeDx_rNDkFccCemu/view" ,
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1O63ubeAEDrJ5PEJJVeDx_rNDkFccCemu"
+            },
+            {
+                "title": "Riyaz Us Saleheen ",
+                "author": " Imam Muhiuddin ",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/DD7Tv17L/7e64dc499d8e727328a28c301a9c0f9c.jpg"  ,
+                "previewLink": "https://drive.google.com/file/d/1CzTrjM0PMRhNjJSAZSDoMV6aXPrtWacR/view" ,
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1CzTrjM0PMRhNjJSAZSDoMV6aXPrtWacR"
+            },   {
+                "title": "Al Aman Wal Ula",
+                "author": "Huzoor Ala Hazrat Alaihi Rahma",
+                "language": "Roman",
+                "img": "https://i.ibb.co/9mx1nKbP/web-sdhss.jpg" ,
+                "previewLink": "https://drive.google.com/file/d/1NKwXtzeuJAdgcJX8-6lFA5UhXIWBfyiD/view"  ,
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1NKwXtzeuJAdgcJX8-6lFA5UhXIWBfyiD"
+            },   {
+                "title": "Deeni Taleem",
+                "author": "Allama Turab Ul Haq Qadri",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/qLjhXgwc/Screenshot-20250318-210239-cropped.png",
+                "previewLink": "https://drive.google.com/file/d/1JTH_us47iUR8ifZFdHlPRpuuBSFixllS/view",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1JTH_us47iUR8ifZFdHlPRpuuBSFixllS"
+            },   {
+                "title": "Hussamul Harmain",
+                "author": " Huzoor Ala Hazrat Alaihi Rahma ",
+                "language": "Roman",
+                "img": "https://i.ibb.co/nstk6k4j/Screenshot-20250318-214702-cropped.png",
+                "previewLink": "https://drive.google.com/file/d/1KPhNZxK8D_6SlY8We_8TRdWEIodlXj3T/view" ,
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1KPhNZxK8D_6SlY8We_8TRdWEIodlXj3T"
+            },   {
+                "title": "Hijrat e Rasool ",
+                "author": "Huzoor Tajushariya Alaihi Rahma ",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/ymY2sD5v/Screenshot-20250318-215000-cropped.png" ,
+                "previewLink": "https://drive.google.com/file/d/1JI5ypO6iR2N7E6rWbwj_Re8sUd0wLlIi/view" ,
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1JI5ypO6iR2N7E6rWbwj_Re8sUd0wLlIi"
+            },   {
+                "title": "Bahar e Shariat",
+                "author": " Mufti Amjad Ali Azmi",
+                "language": "Roman",
+                "img": "https://i.ibb.co/spyRc7Nk/Screenshot-20250318-215400-cropped.png" ,
+                "previewLink":"https://drive.google.com/file/d/1ImxQkgP8Yz9jxBiQIPjte8N4fsmDx6-r/view",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1ImxQkgP8Yz9jxBiQIPjte8N4fsmDx6-r"
+            },   {
+                "title": "Shariat",
+                "author": "Allama Arshad Ul Qadri",
+                "language": "Urdu",
+                "img":"https://i.ibb.co/wrY5hCmL/Screenshot-20250318-215905-cropped.png",
+                "previewLink":"https://drive.google.com/file/d/1K3GpWnPWUZSYnZSpu5R-3BiPvQOpnAEW/view"  ,
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1K3GpWnPWUZSYnZSpu5R-3BiPvQOpnAEW"
+            },   {
+                "title": "Muntakhab Hadeesein",
+                "author": "Allama Abdul Mustafa Azmi",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/rG08Z76X/Screenshot-20250318-220153-cropped.png",
+                "previewLink": "https://drive.google.com/file/d/1Cq8qEbq4DfCBF7ij7lNS-PnuxWHK-hoS/view" ,
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1Cq8qEbq4DfCBF7ij7lNS-PnuxWHK-hoS"
+            },   {
+                "title": "Seerat e Mustafa",
+                "author": "Allama Abdul Mustafa Azmi ",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/1Yw7C2BN/Screenshot-20250318-220450-cropped.png",
+                "previewLink": "https://drive.google.com/file/d/1IkcHoNm7amwymWlxHC3c7aHo4g_6v0i_/view",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1IkcHoNm7amwymWlxHC3c7aHo4g_6v0i_"
+            },   {
+                "title": "Irfan e Shariat",
+                "author": "Huzoor Ala Hazrat Alaihi Rahma",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/0Rh4cQvL/Screenshot-20250318-220924-cropped.png",
+                "previewLink": "https://drive.google.com/file/d/1K1zt4tATIkH_1xf3P1GihcpOxQNFZEnj/view",
+                "downloadLink":"https://drive.google.com/uc?export=download&id=1K1zt4tATIkH_1xf3P1GihcpOxQNFZEnj"
+            },   {
+                "title": "Ad Dawlatul Makkiyah",
+                "author": "Huzoor Ala Hazrat Alaihi Rahma",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/4n5vMVcw/Screenshot-20250318-221451-cropped.png",
+                "previewLink": "https://drive.google.com/file/d/1Nk1CY35txL1kpzuoppF7tnxI0kP_f4MG/view" ,
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1Nk1CY35txL1kpzuoppF7tnxI0kP_f4MG"
+            },   {
+                "title": "Ahkam e Shariat",
+                "author": "Huzoor Ala Hazrat Alaihi Rahma",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/8gnSsSz3/Screenshot-20250318-221833-cropped.png" ,
+                "previewLink":"https://drive.google.com/file/d/1Je_YeWfLn9HNu7ZlpV_SnNpHoxFq0MUM/view",
+                "downloadLink":"https://drive.google.com/uc?export=download&id=1Je_YeWfLn9HNu7ZlpV_SnNpHoxFq0MUM"
+            },   {
+                "title": "Khawateen Ke Masail",
+                "author": "Allama Turab Ul Haq Qadri",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/Q36QfYJ2/Screenshot-20250402-183418-cropped.png"  ,
+                "previewLink": "https://drive.google.com/file/d/1JKYgMP4pa0t1matnQhTdrDaNRnE_gtIf/preview"  ,
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1JKYgMP4pa0t1matnQhTdrDaNRnE_gtIf"
+            },   {
+                "title": "Tafseer Surah Ikhlas",
+                "author": "Allama Turab Ul Haq Qadri",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/M5MnfqtN/Screenshot-20250402-183043-cropped.png"  ,
+                "previewLink": "https://drive.google.com/file/d/1NDGq2TNkdzSDYr6dXBjTanX8aLkQO3o9/preview"  ,
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1NDGq2TNkdzSDYr6dXBjTanX8aLkQO3o9"
+            },   {
+                "title": "Fatwa e Africa",
+                "author": "Huzoor Ala Hazrat Alaihi Rahma ",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/xSPcCCbX/Screenshot-20250402-182604-cropped.png" ,
+                "previewLink": "https://drive.google.com/file/d/1JrT82u277DSaj8sBaGgJhW9Byi4MTzit/preview" ,
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1JrT82u277DSaj8sBaGgJhW9Byi4MTzit" 
+            },   {
+                "title": "Zia e Raza (1)",
+                "author": "Hasan Raza Hanfi",
+                "language": "Roman",
+                "img": "https://i.ibb.co/dJPMmRjY/Beige-Brown-Vintage-Old-Diary-Book-Cover-Page-Document-A4-20250402-002849-0000.png" ,
+                "previewLink": "https://drive.google.com/file/d/1e9nuJxv1rgPDdWClbQ_4UsaD75m-oUNL/preview",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1e9nuJxv1rgPDdWClbQ_4UsaD75m-oUNL"
+            },   {
+                "title": "Azzubdatuz Zakiyyah Litahreemis Sujoodit Tahiyyah",
+                "author": "Huzoor Ala Hazrat Alaihi Rahma",
+                "language": "Arbi",
+                "img": "https://i.ibb.co/M5NDFG1w/IMG-20250402-175726-169.jpg" ,
+                "previewLink": "https://drive.google.com/file/d/1fild15jA9M7Hb_Tpw-RuUEv8n6QJrGyD/preview",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1fild15jA9M7Hb_Tpw-RuUEv8n6QJrGyD"
+            },   {
+                "title": "Masala Rafa Yadain Per...",
+                "author": "Moulana Ghulam Murtaza Saquee Mujaddidi",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/MYK0v2S/IMG-20250402-175414-235.jpg" ,
+                "previewLink": "https://drive.google.com/file/d/1fiRV_-d-ZnnSOaD1XhVm338xwr7zNnDn/preview",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1fiRV_-d-ZnnSOaD1XhVm338xwr7zNnDn"
+            },    {
+                "title": "Akhbarul Akhiyaar" ,
+                "author": "Shah Abdul Haque Mohaddise Dehlvi",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/XrT03RzT/IMG-20250402-175136-876.jpg",
+                "previewLink": "https://drive.google.com/file/d/1feRR_KcGekcthhgCXRm3_aM3LZaUEEnZ/preview",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1feRR_KcGekcthhgCXRm3_aM3LZaUEEnZ"
+            },    {
+                "title": "As-Salat Alan Nabi ﷺ",
+                "author": "Imam Ahmed Bin Ama'r Ibne Abi Aasim",
+                "language": "Arbi",
+                "img": "https://i.ibb.co/MDcDcZ1X/IMG-20250402-175013-801.jpg" ,
+                "previewLink": "https://drive.google.com/file/d/1fdIK67pX5OXKbh5CuRhShMcZZ59NfDO0/preview",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1fdIK67pX5OXKbh5CuRhShMcZZ59NfDO0"
+            },  
+              { "title": "Aqaid o Kalam",
+                "author": "Huzoor Ala Hazrat Alaihi Rahma",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/5W7bWPFD/Screenshot-20250327-191718-cropped.png" ,
+                "previewLink": "https://drive.google.com/file/d/1ae-2yK9FarxlENwdpleu3TOvEeqAoPvX/view",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1ae-2yK9FarxlENwdpleu3TOvEeqAoPvX"
+            },   {
+                "title": "Zarooriyat e Ahle Sunnat",
+                "author": "Allama Tariq Anwar Misbahi",
+                "language": "Urdu",
+                "img": "https://i.ibb.co/DfRTkSNg/Screenshot-20250327-190447-cropped.png",
+                "previewLink": "https://drive.google.com/file/d/1aVcSLzly36O1RrAhTLJth5QY6m_r3Ofn/view",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1aVcSLzly36O1RrAhTLJth5QY6m_r3Ofn"
+            },   {
+                "title": "Imam Ul Ayimma Hazrat Abu Bakar Siddique",
+                "author": "Allama Gulam Rasool Qasmi",
+                "language": "Roman",
+                "img": "https://i.ibb.co/3y97y3hZ/Screenshot-20250327-185637-cropped.png"  ,
+                "previewLink": "https://drive.google.com/file/d/1e9nuJxv1rgPDdWClbQ_4UsaD75m-oUNL/preview",
+                "downloadLink": "https://drive.google.com/uc?export=download&id=1aXjXws83fE3T2xkgNzqr_64bjtM1hHGQ"
+            },
+        ];
+    
+        let currentPage = 1;
+const booksPerPage = 12; // एक पेज पर 12 बुक्स दिखेंगी
+let currentBooks = books; // सर्च और पेजिनेशन को हैंडल करने के लिए एक नया वेरिएबल
+
+function displayBooks(filteredBooks = books, page = 1) {
+    currentBooks = filteredBooks; // सर्च रिजल्ट्स को स्टोर करें
+    currentPage = page; // पेज नंबर अपडेट करें
+
+    const start = (currentPage - 1) * booksPerPage;
+    const end = start + booksPerPage;
+    const paginatedBooks = currentBooks.slice(start, end);
+
+    document.getElementById("books-container").innerHTML = paginatedBooks.map(book => `
+        <div class="card">
+            <img src="${book.img}" alt="${book.title}" class="w-full h-40 object-cover rounded-img">
+            <h2 class="text-xl font-bold mt-2">${book.title}</h2>
+            <p class="text-gray-500">Author: ${book.author}</p>
+            <p class="text-gray-600 font-semibold">Language: ${book.language}</p>
+            <div class="book-buttons">
+                <a href="${book.previewLink}" target="_blank" class="btn-read">Read Online</a>
+                <a href="${book.downloadLink}" download class="btn-download">Download</a>
+            </div>
+        </div>
+    `).join("");
+
+    // Pagination Buttons Show/Hide Logic
+    document.getElementById("prevPage").style.display = currentPage > 1 ? "inline-block" : "none";
+    document.getElementById("nextPage").style.display = end < currentBooks.length ? "inline-block" : "none";
+}
+
+// Pagination Event Listeners
+document.getElementById("prevPage").addEventListener("click", function() {
+    if (currentPage > 1) {
+        displayBooks(currentBooks, currentPage - 1);
+    }
+});
+
+document.getElementById("nextPage").addEventListener("click", function() {
+    if ((currentPage * booksPerPage) < currentBooks.length) {
+        displayBooks(currentBooks, currentPage + 1);
+    }
+});
+
+// Search Function
+document.getElementById("searchButton").addEventListener("click", function() {
+    let query = document.getElementById("searchInput").value.toLowerCase();
+    let filteredBooks = books.filter(book => 
+        book.title.toLowerCase().includes(query) ||
+        book.author.toLowerCase().includes(query) ||
+        book.language.toLowerCase().includes(query)
+    );
+    displayBooks(filteredBooks, 1); // सर्च के बाद पहले पेज पर जाएं
+});
+
+// Enter Key से भी सर्च करें
+document.getElementById("searchInput").addEventListener("keyup", function(event) {
+    if (event.key === "Enter") {
+        document.getElementById("searchButton").click();
+    }
+});
+
+// Initial Display
+displayBooks(books, currentPage);
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll("img").forEach(img => {
+            img.setAttribute("loading", "lazy");
+        });
+    });
+
+
+    </script>
+    
+<!-- Footer -->
+    <footer class="text-center p-6 mt-12">
+        
+        <h1 class="text-2xl font-bold mb-2">MaktAB E RAZA</h1>
+        <p class="text-center mb-6">If you need any details or want to share an idea, feel free to contact us at +91 8981245429.
+
+ </p>
+        
+        <div class="flex justify-center space-x-4 mb-6">
+            <a class="text-gray-800 text-2xl" href="#"><i class="fab fa-facebook"></i></a>
+            <a class="text-gray-800 text-2xl" href="#"><i class="fab fa-twitter"></i></a
+            <a class="text-gray-800 text-2xl" href="#"><i class="fab fa-instagram"></i></a>
+            <a class="text-gray-800 text-2xl" href="#"><i class="fas fa-envelope"></i></a>
+        </div>
+
+        <p class="text-gray-600">&copy; 2025 MAKTAB E RAZA. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
