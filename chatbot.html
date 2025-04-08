@@ -210,13 +210,14 @@
 
       function addMessage(text, sender, isTyping = false) {
         const msg = document.createElement("div");
-        msg.className = message ${sender};
+        msg.className = `message ${sender}`; // ✅ fixed this line
 
         const avatar = document.createElement("img");
         avatar.className = "avatar";
-        avatar.src = sender === "user"
-          ? "https://i.ibb.co/Q0WJGp2/73c377736ae77bd05feaecc59ee9dfe9.jpg"
-          : "https://cdn-icons-png.flaticon.com/512/4712/4712104.png";
+        avatar.src =
+          sender === "user"
+            ? "https://i.ibb.co/Q0WJGp2/73c377736ae77bd05feaecc59ee9dfe9.jpg"
+            : "https://cdn-icons-png.flaticon.com/512/4712/4712104.png";
 
         const bubble = document.createElement("div");
         bubble.className = "bubble";
@@ -269,11 +270,14 @@
         showTyping();
 
         try {
-          const response = await fetch("maktab-backend-bje113fhm-md-hasan-razas-projects.vercel.app", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message })
-          });
+          const response = await fetch(
+            "https://maktab-backend-bje113fhm-md-hasan-razas-projects.vercel.app",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ message }),
+            }
+          );
 
           const data = await response.json();
           removeTyping();
