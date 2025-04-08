@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Premium Chatbot</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(-45deg, #c6ffe2, #d9e4ff, #fce2f0, #ffecc8);
+        background-size: 400% 400%;
+        animation: backgroundShift 20s ease infinite;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      @keyframes backgroundShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .chat-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        max-width: 760px;
+        width: 100%;
+        margin: auto;
+        padding: 30px 20px;
+        overflow-y: auto;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        backdrop-filter: blur(25px);
+        box-shadow: 0 16px 60px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .message {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 20px;
+        animation: slideIn 0.3s ease;
+      }
+
+      .message.bot {
+        flex-direction: row;
+      }
+      .message.user {
+        flex-direction: row-reverse;
+      }
+
+      .avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .bubble {
+        max-width: 75%;
+        padding: 14px 18px;
+        border-radius: 18px;
+        font-size: 15.5px;
+        background: rgba(255, 255, 255, 0.55);
+        backdrop-filter: blur(14px);
+        color: #1f2937;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .user .bubble {
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .bot .bubble {
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      .bubble.typing::after {
+        content: "";
+        display: inline-block;
+        width: 24px;
+        height: 10px;
+        background-image: radial-gradient(circle, #6b7280 20%, transparent 20%),
+          radial-gradient(circle, #6b7280 20%, transparent 20%),
+          radial-gradient(circle, #6b7280 20%, transparent 20%);
+        background-size: 6px 6px;
+        background-repeat: no-repeat;
+        background-position: left, center, right;
+        animation: typingDots 1.2s infinite;
+      }
+
+      .input-bar {
+        width: 100%;
+        background: transparent;
+        padding: 20px;
+        position: sticky;
+        bottom: 0;
+        backdrop-filter: blur(20px);
+      }
+
+      .input-inner {
+        max-width: 760px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 20px;
+        padding: 12px 16px;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08),
+          inset 0 1px 4px rgba(255, 255, 255, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .input-inner input {
+        flex: 1;
+        font-size: 16px;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: #111827;
+      }
+
+      .input-inner input::placeholder {
+        color: #6b7280;
+      }
+
+      .input-inner button svg {
+        width: 22px;
+        height: 22px;
+        fill: #10a37f;
+        transition: transform 0.2s ease;
+      }
+
+      .input-inner button:hover svg {
+        transform: scale(1.2);
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(5px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes typingDots {
+        0% {
+          background-position: left 0px, center 0px, right 0px;
+          opacity: 0.2;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          background-position: left 0px, center 0px, right 0px;
+          opacity: 0.2;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-container" id="chatbox"></div>
+
+    <div class="input-bar">
+      <div class="input-inner">
+        <input
+          type="text"
+          id="userInput"
+          placeholder="Message …"
+          onkeypress="handleKey(event)"
+        />
+        <button onclick="sendMessage()">
+          <svg viewBox="0 0 24 24">
+            <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const chatbox = document.getElementById("chatbox");
+
+      function handleKey(e) {
+        if (e.key === "Enter") sendMessage();
+      }
+
+      function addMessage(text, sender, isTyping = false) {
+        const msg = document.createElement("div");
+        msg.className = message ${sender};
+
+        const avatar = document.createElement("img");
+        avatar.className = "avatar";
+        avatar.src = sender === "user"
+          ? "https://i.ibb.co/Q0WJGp2/73c377736ae77bd05feaecc59ee9dfe9.jpg"
+          : "https://cdn-icons-png.flaticon.com/512/4712/4712104.png";
+
+        const bubble = document.createElement("div");
+        bubble.className = "bubble";
+        if (isTyping) {
+          bubble.classList.add("typing");
+        } else {
+          bubble.textContent = text;
+        }
+
+        msg.appendChild(avatar);
+        msg.appendChild(bubble);
+        chatbox.appendChild(msg);
+        msg.scrollIntoView({ behavior: "smooth" });
+      }
+
+      let typingMsg = null;
+
+      function showTyping() {
+        typingMsg = document.createElement("div");
+        typingMsg.className = "message bot";
+
+        const avatar = document.createElement("img");
+        avatar.className = "avatar";
+        avatar.src = "https://cdn-icons-png.flaticon.com/512/4712/4712104.png";
+
+        const bubble = document.createElement("div");
+        bubble.className = "bubble typing";
+
+        typingMsg.appendChild(avatar);
+        typingMsg.appendChild(bubble);
+        chatbox.appendChild(typingMsg);
+        typingMsg.scrollIntoView({ behavior: "smooth" });
+      }
+
+      function removeTyping() {
+        if (typingMsg) {
+          typingMsg.remove();
+          typingMsg = null;
+        }
+      }
+
+      async function sendMessage() {
+        const input = document.getElementById("userInput");
+        const message = input.value.trim();
+        if (!message) return;
+
+        addMessage(message, "user");
+        input.value = "";
+
+        showTyping();
+
+        try {
+          const response = await fetch("maktab-backend-bje113fhm-md-hasan-razas-projects.vercel.app", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message })
+          });
+
+          const data = await response.json();
+          removeTyping();
+          addMessage(data.reply, "bot");
+        } catch (error) {
+          removeTyping();
+          addMessage("Bot not available right now.", "bot");
+        }
+      }
+
+      window.onload = () => {
+        addMessage("Assalamu Alaikum Bataiye Mai kya Madad Karu Apki?", "bot");
+      };
+    </script>
+  </body>
+</html>
