@@ -12,6 +12,87 @@
             color: black;
             font-family: 'Poppins', sans-serif;
         }
+        .nav-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-weight: 500;
+  color: #1f2937;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #10a37f;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #111827;
+  border-radius: 2px;
+}
+
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.95);
+  position: absolute;
+  top: 64px;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.mobile-menu a {
+  margin-bottom: 15px;
+  font-weight: 500;
+  color: #1f2937;
+  text-decoration: none;
+}
+
+.mobile-menu a:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .mobile-menu.show {
+    display: flex;
+  }
+}
         .card {
             border-radius: 12px;
             background: white;
@@ -109,11 +190,19 @@
     </style>
 </head>
 <body>
-
-    <header class="flex items-center justify-center p-4 border-b shadow-lg">
-        <center><h1 class="text-2xl font-bold">بسم اللہ الرحمٰن الرحیم</h1></center>
-    </header>
-
+    <link rel="stylesheet" href="navbar.css"> 
+    <header class="navbar"> 
+     <div class="nav-container"> 
+      <div class="flex items-center"> 
+       <img src="https://i.ibb.co/67gFrJ0R/IMG-20250402-WA0063.jpg" alt="Logo" class="w-14 h-14 rounded-full mr-2"> 
+      </div> 
+      <div class="nav-links"> <a href="index.html">Home</a> <a href="books.html">Books</a> <a href="naats.html">Naats</a> <a href="chatbot.html">AI Chat</a> <a href="about.html">About Us</a> 
+      </div> 
+      <div class="hamburger" onclick="toggleMenu()"> <span></span> <span></span> <span></span> 
+      </div> 
+     </div> 
+     <div class="mobile-menu" id="mobileMenu"> <a href="index.html">Home</a> <a href="books.html">Books</a> <a href="naats.html">Naats</a> <a href="about.html">About Us</a> 
+  </div>
     <main class="text-center p-6">
         <h1 class="text-3xl font-bold mb-2">
             AUTHENTIC BOOKS OF <span class="text-red-800"> AHLE SUNNAT </span> WAL JAMAAT
@@ -291,7 +380,7 @@
             },   {
                 "title": "Seerat e Mustafa",
                 "author": "Allama Abdul Mustafa Azmi ",
-                "language": "Roman",
+                "language": "Urdu",
                 "img": "https://i.ibb.co/1Yw7C2BN/Screenshot-20250318-220450-cropped.png",
                 "previewLink": "https://drive.google.com/file/d/1IkcHoNm7amwymWlxHC3c7aHo4g_6v0i_/view",
                 "downloadLink": "https://drive.google.com/uc?export=download&id=1IkcHoNm7amwymWlxHC3c7aHo4g_6v0i_"
@@ -420,7 +509,9 @@ function displayBooks(filteredBooks = books, page = 1) {
             </div>
         </div>
     `).join("");
-
+    function toggleMenu() {
+  document.getElementById("mobileMenu").classList.toggle("show");
+}
     // Pagination Buttons Show/Hide Logic
     document.getElementById("prevPage").style.display = currentPage > 1 ? "inline-block" : "none";
     document.getElementById("nextPage").style.display = end < currentBooks.length ? "inline-block" : "none";
@@ -473,7 +564,7 @@ displayBooks(books, currentPage);
 <!-- Footer -->
     <footer class="text-center p-6 mt-12">
         
-        <h1 class="text-2xl font-bold mb-2">MAKTAB E RAZA</h1>
+        <h1 class="text-2xl font-bold mb-2">MaktAB E RAZA</h1>
         <p class="text-center mb-6">If you need any details or want to share an idea, feel free to contact us at +91 8981245429.
 
  </p>
