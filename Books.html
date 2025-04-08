@@ -12,7 +12,17 @@
             color: black;
             font-family: 'Poppins', sans-serif;
         }
-        .nav-container {
+        .navbar {
+  font-family: 'Inter', sans-serif;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-container {
   max-width: 1200px;
   margin: auto;
   padding: 16px 20px;
@@ -93,16 +103,16 @@
     display: flex;
   }
 }
-        .card {
+       .card {
             border-radius: 12px;
             background: white;
             padding: 15px;
-            box-shadow: 0 0 10px #f76262;
+            box-shadow: 0 0 10px #00aaff;
             transition: 0.3s;
         }
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 0 15px #ff5151;
+            box-shadow: 0 0 15px #0077cc;
         }
         .search-box {
             display: flex;
@@ -114,8 +124,8 @@
             width: 90%;
             max-width: 600px;
             margin: 20px auto;
-            border: 3px solid #490101;
-            box-shadow: 0 0 10px #410000;
+            border: 3px solid #0077cc;
+            box-shadow: 0 0 10px #0077cc;
         }
         .search-box input {
             flex: 1;
@@ -129,8 +139,8 @@
             color: black;
         }
         .search-btn {
-            background: #4b0101;
-            color: rgb(255, 255, 255);
+            background: #0077cc;
+            color: white;
             border: none;
             padding: 10px 15px;
             border-radius: 0 50px 50px 0;
@@ -138,7 +148,7 @@
             transition: 0.3s;
         }
         .search-btn:hover {
-            background: #3d0101;
+            background: #0055aa;
         }
         .pagination {
             display: flex;
@@ -146,7 +156,7 @@
             margin-top: 20px;
         }
         .pagination button {
-            background-color: #3d0101;
+            background-color: #0077cc;
             color: white;
             border: none;
             padding: 10px 15px;
@@ -156,7 +166,7 @@
             transition: 0.3s;
         }
         .pagination button:hover {
-            background-color: #050505;
+            background-color: #0055aa;
         }
         .rounded-img {
             border-radius: 10px;
@@ -179,7 +189,7 @@
             background: black;
         }
         .btn-download {
-            background: rgb(66, 2, 77);
+            background: blue;
         }
         .btn-read:hover {
             background: grey;
@@ -190,22 +200,25 @@
     </style>
 </head>
 <body>
-    <link rel="stylesheet" href="navbar.css"> 
-    <header class="navbar"> 
-     <div class="nav-container"> 
-      <div class="flex items-center"> 
-       <img src="https://i.ibb.co/67gFrJ0R/IMG-20250402-WA0063.jpg" alt="Logo" class="w-14 h-14 rounded-full mr-2"> 
-      </div> 
-      <div class="nav-links"> <a href="index.html">Home</a> <a href="books.html">Books</a> <a href="naats.html">Naats</a> <a href="chatbot.html">AI Chat</a> <a href="about.html">About Us</a> 
-      </div> 
-      <div class="hamburger" onclick="toggleMenu()"> <span></span> <span></span> <span></span> 
-      </div> 
-     </div> 
-     <div class="mobile-menu" id="mobileMenu"> <a href="index.html">Home</a> <a href="books.html">Books</a> <a href="naats.html">Naats</a> <a href="about.html">About Us</a> 
-  </div>
+<header>
+  <link rel="stylesheet" href="navbar.css"> 
+  <header class="navbar"> 
+   <div class="nav-container"> 
+    <div class="flex items-center"> 
+     <img src="https://i.ibb.co/67gFrJ0R/IMG-20250402-WA0063.jpg" alt="Logo" class="w-14 h-14 rounded-full mr-2"> 
+    </div> 
+    <div class="nav-links"> <a href="index.html">Home</a> <a href="books.html">Books</a> <a href="naats.html">Naats</a> <a href="about.html">About Us</a> 
+    </div> 
+    <div class="hamburger" onclick="toggleMenu()"> <span></span> <span></span> <span></span> 
+    </div> 
+   </div> 
+   <div class="mobile-menu" id="mobileMenu"> <a href="index.html">Home</a> <a href="books.html">Books</a> <a href="naats.html">Naats</a> <a href="chatbot.html">AI Chat</a> <a href="about.html">About Us</a> 
+   </div>
+    </header>
+
     <main class="text-center p-6">
         <h1 class="text-3xl font-bold mb-2">
-            AUTHENTIC BOOKS OF <span class="text-red-800"> AHLE SUNNAT </span> WAL JAMAAT
+            World No 01 <span class="text-purple-400"> Ahle Sunnat Book</span> Library
         </h1>
         <p class="text-gray-400 mb-6">Multiple Languages Like, Urdu, Roman, Hindi, English, Arabic </p>
         
@@ -218,8 +231,8 @@
         <div id="books-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"></div>
 
         <div class="pagination">
-            <button id="prevPage">⬅ Previous</button>
-            <button id="nextPage">Next ➡</button>
+            <button id="prevPage">⬅️ Previous</button>
+            <button id="nextPage">Next ➡️</button>
         </div>
     </main>
 
@@ -560,11 +573,10 @@ displayBooks(books, currentPage);
 
 
     </script>
-    
 <!-- Footer -->
     <footer class="text-center p-6 mt-12">
         
-        <h1 class="text-2xl font-bold mb-2">MaktAB E RAZA</h1>
+        <h1 class="text-2xl font-bold mb-2">Maktabatur Razaviyyah</h1>
         <p class="text-center mb-6">If you need any details or want to share an idea, feel free to contact us at +91 8981245429.
 
  </p>
@@ -576,7 +588,7 @@ displayBooks(books, currentPage);
             <a class="text-gray-800 text-2xl" href="#"><i class="fas fa-envelope"></i></a>
         </div>
 
-        <p class="text-gray-600">&copy; 2025 MAKTAB E RAZA. All Rights Reserved.</p>
+        <p class="text-gray-600">&copy; 2025 Maktabatur Razaviyyah. All Rights Reserved.</p>
     </footer>
 
 </body>
