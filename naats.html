@@ -3,15 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Naats - Maktabatur Razaviyyah</title>
+    <title>Naats - Maktab e Raza</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      body {
-        background: #e7e5e5d3;
-        color: rgb(0, 0, 0);
-        font-family: Arial, sans-serif;
-        overflow-x: hidden;
-      }
+   body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(-45deg, #c6ffe2, #d9e4ff, #fce2f0, #ffecc8);
+      background-size: 400% 400%;
+      animation: backgroundShift 20s ease infinite;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    @keyframes backgroundShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
       .container {
         max-width: 800px;
         max-height: 300px;
