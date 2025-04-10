@@ -14,7 +14,7 @@
       height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      overflow: auto;
     }
 
     @keyframes backgroundShift {
@@ -24,7 +24,7 @@
     }
       .container {
         max-width: 800px;
-        max-height: 300px;
+        max-height: auto;
         margin: auto;
         padding: 20px;
       }
@@ -448,78 +448,61 @@ Ho bhalaa AKHTAR ka daata Aap haiñ`,
         },
       ];
 
-      let currentPage = 1;
-      const naatsPerPage = 10;
+  const naatsPerPage = 2;
+  let currentPage = 1;
 
-      function showNaats() {
-        let start = (currentPage - 1) * naatsPerPage;
-        let end = start + naatsPerPage;
-        let paginatedNaats = naats.slice(start, end);
+  function displayNaats() {
+    const start = (currentPage - 1) * naatsPerPage;
+    const end = start + naatsPerPage;
+    const filteredNaats = naats.slice(start, end);
+    const list = document.getElementById("naatList");
+    list.innerHTML = "";
 
-        document.getElementById("naatList").innerHTML = paginatedNaats
-          .map(
-            (naat, index) =>
-              `<li onclick="showNaat(this, ${start + index})">${naat.title}
-                          <div class="naat-content" style="display:none;">
-                              <h2 class="text-xl font-bold mb-2">${
-                                naat.title
-                              }</h2>
-                              <p>${naat.content}</p>
-                              <button class="copy-btn" onclick="copyNaat('${
-                                naat.content
-                              }')">📋 Copy</button>
-                          </div>
-                      </li>`
-          )
-          .join("");
+    filteredNaats.forEach((naat, index) => {
+      const li = document.createElement("li");
+      li.textContent = naat.title;
+      li.onclick = () => showContent(naat.content);
+      list.appendChild(li);
+    });
 
-        document.getElementById("prevBtn").disabled = currentPage === 1;
-        document.getElementById("nextBtn").disabled = end >= naats.length;
-        document.getElementById("pageNumber").innerText = currentPage;
-      }
+    document.getElementById("pageNumber").textContent = currentPage;
+    document.getElementById("prevBtn").disabled = currentPage === 1;
+    document.getElementById("nextBtn").disabled = end >= naats.length;
+  }
 
-      function showNaat(element, index) {
-        let naatContent = element.querySelector(".naat-content");
-        if (naatContent.style.display === "none") {
-          document
-            .querySelectorAll(".naat-content")
-            .forEach((content) => (content.style.display = "none"));
-          naatContent.style.display = "block";
-        } else {
-          naatContent.style.display = "none";
-        }
-      }
+  function showContent(content) {
+    alert(content); // You can improve this with modal or collapsible card
+  }
 
-      function copyNaat(content) {
-        navigator.clipboard.writeText(content).then(() => {
-          alert("✅ Naat copied successfully!");
-        });
-      }
+  function searchNaats() {
+    const query = document.getElementById("searchInput").value.toLowerCase();
+    const list = document.getElementById("naatList");
+    list.innerHTML = "";
 
-      function nextPage() {
-        if (currentPage * naatsPerPage < naats.length) {
-          currentPage++;
-          showNaats();
-        }
-      }
+    const filtered = naats.filter(n => n.title.toLowerCase().includes(query));
+    filtered.forEach(naat => {
+      const li = document.createElement("li");
+      li.textContent = naat.title;
+      li.onclick = () => showContent(naat.content);
+      list.appendChild(li);
+    });
+  }
 
-      function prevPage() {
-        if (currentPage > 1) {
-          currentPage--;
-          showNaats();
-        }
-      }
+  function nextPage() {
+    if ((currentPage * naatsPerPage) < naats.length) {
+      currentPage++;
+      displayNaats();
+    }
+  }
 
-      function searchNaats() {
-        let input = document.getElementById("searchInput").value.toLowerCase();
-        document.querySelectorAll(".naat-list li").forEach((li) => {
-          li.style.display = li.innerText.toLowerCase().includes(input)
-            ? "block"
-            : "none";
-        });
-      }
+  function prevPage() {
+    if (currentPage > 1) {
+      currentPage--;
+      displayNaats();
+    }
+  }
 
-      showNaats();
-    </script>
+  displayNaats(); // Call on load
+</script>
   </body>
 </html>
