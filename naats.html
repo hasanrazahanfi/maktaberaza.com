@@ -448,87 +448,67 @@ Ho bhalaa AKHTAR ka daata Aap haiñ`,
         },
       ];
 
-  <ul id="naatList"></ul>
-const naatsPerPage = 10;
 let currentPage = 1;
+        const naatsPerPage = 5;
+        
+        function showNaats() {
+            let start = (currentPage - 1) * naatsPerPage;
+            let end = start + naatsPerPage;
+            let paginatedNaats = naats.slice(start, end);
 
-function displayNaats() {
-  const start = (currentPage - 1) * naatsPerPage;
-  const end = start + naatsPerPage;
-  const filteredNaats = naats.slice(start, end);
-  const list = document.getElementById("naatList");
-  list.innerHTML = "";
+            document.getElementById("naatList").innerHTML = paginatedNaats.map((naat, index) =>
+                `<li onclick="showNaat(this, ${start + index})">${naat.title}
+                    <div class="naat-content" style="display:none;">
+                        <h2 class="text-xl font-bold mb-2">${naat.title}</h2>
+                        <p>${naat.content}</p>
+                        <button class="copy-btn" onclick="copyNaat('${naat.content}')">📋 Copy</button>
+                    </div>
+                </li>`
+            ).join("");
 
-  filteredNaats.forEach((naat) => {
-    const li = document.createElement("li");
-    li.textContent = naat.title;
-    li.style.cursor = "pointer";
+            document.getElementById("prevBtn").disabled = currentPage === 1;
+            document.getElementById("nextBtn").disabled = end >= naats.length;
+            document.getElementById("pageNumber").innerText = currentPage;
+        }
 
-    // content div
-    const contentDiv = document.createElement("div");
-    contentDiv.style.display = "none";
-    contentDiv.style.padding = "10px";
-    contentDiv.style.backgroundColor = "#f3f3f3";
-    contentDiv.style.border = "1px solid #ccc";
-    contentDiv.style.marginTop = "5px";
-    contentDiv.textContent = naat.content;
+        function showNaat(element, index) {
+            let naatContent = element.querySelector(".naat-content");
+            if (naatContent.style.display === "none") {
+                document.querySelectorAll(".naat-content").forEach(content => content.style.display = "none");
+                naatContent.style.display = "block";
+            } else {
+                naatContent.style.display = "none";
+            }
+        }
 
-    li.onclick = () => {
-      contentDiv.style.display = contentDiv.style.display === "none" ? "block" : "none";
-    };
+        function copyNaat(content) {
+            navigator.clipboard.writeText(content).then(() => {
+                alert("✅ Naat copied successfully!");
+            });
+        }
 
-    list.appendChild(li);
-    list.appendChild(contentDiv);
-  });
+        function nextPage() {
+            if (currentPage * naatsPerPage < naats.length) {
+                currentPage++;
+                showNaats();
+            }
+        }
 
-  document.getElementById("pageNumber").textContent = currentPage;
-  document.getElementById("prevBtn").disabled = currentPage === 1;
-  document.getElementById("nextBtn").disabled = end >= naats.length;
-}
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                showNaats();
+            }
+        }
 
-function searchNaats() {
-  const query = document.getElementById("searchInput").value.toLowerCase();
-  const list = document.getElementById("naatList");
-  list.innerHTML = "";
+        function searchNaats() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            document.querySelectorAll(".naat-list li").forEach(li => {
+                li.style.display = li.innerText.toLowerCase().includes(input) ? "block" : "none";
+            });
+        }
 
-  const filtered = naats.filter(n => n.title.toLowerCase().includes(query));
-  filtered.forEach(naat => {
-    const li = document.createElement("li");
-    li.textContent = naat.title;
-    li.style.cursor = "pointer";
-
-    const contentDiv = document.createElement("div");
-    contentDiv.style.display = "none";
-    contentDiv.style.padding = "10px";
-    contentDiv.style.backgroundColor = "#f3f3f3";
-    contentDiv.style.border = "1px solid #ccc";
-    contentDiv.style.marginTop = "5px";
-    contentDiv.textContent = naat.content;
-
-    li.onclick = () => {
-      contentDiv.style.display = contentDiv.style.display === "none" ? "block" : "none";
-    };
-
-    list.appendChild(li);
-    list.appendChild(contentDiv);
-  });
-}
-
-function nextPage() {
-  if ((currentPage * naatsPerPage) < naats.length) {
-    currentPage++;
-    displayNaats();
-  }
-}
-
-function prevPage() {
-  if (currentPage > 1) {
-    currentPage--;
-    displayNaats();
-  }
-}
-
-displayNaats();
-</script>
+        showNaats();
+    </script>
   </body>
 </html>
