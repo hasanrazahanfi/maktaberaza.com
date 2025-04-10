@@ -448,61 +448,87 @@ Ho bhalaa AKHTAR ka daata Aap haiñ`,
         },
       ];
 
-  const naatsPerPage = 10;
-  let currentPage = 1;
+  <ul id="naatList"></ul>
+const naatsPerPage = 10;
+let currentPage = 1;
 
-  function displayNaats() {
-    const start = (currentPage - 1) * naatsPerPage;
-    const end = start + naatsPerPage;
-    const filteredNaats = naats.slice(start, end);
-    const list = document.getElementById("naatList");
-    list.innerHTML = "";
+function displayNaats() {
+  const start = (currentPage - 1) * naatsPerPage;
+  const end = start + naatsPerPage;
+  const filteredNaats = naats.slice(start, end);
+  const list = document.getElementById("naatList");
+  list.innerHTML = "";
 
-    filteredNaats.forEach((naat, index) => {
-      const li = document.createElement("li");
-      li.textContent = naat.title;
-      li.onclick = () => showContent(naat.content);
-      list.appendChild(li);
-    });
+  filteredNaats.forEach((naat) => {
+    const li = document.createElement("li");
+    li.textContent = naat.title;
+    li.style.cursor = "pointer";
 
-    document.getElementById("pageNumber").textContent = currentPage;
-    document.getElementById("prevBtn").disabled = currentPage === 1;
-    document.getElementById("nextBtn").disabled = end >= naats.length;
+    // content div
+    const contentDiv = document.createElement("div");
+    contentDiv.style.display = "none";
+    contentDiv.style.padding = "10px";
+    contentDiv.style.backgroundColor = "#f3f3f3";
+    contentDiv.style.border = "1px solid #ccc";
+    contentDiv.style.marginTop = "5px";
+    contentDiv.textContent = naat.content;
+
+    li.onclick = () => {
+      contentDiv.style.display = contentDiv.style.display === "none" ? "block" : "none";
+    };
+
+    list.appendChild(li);
+    list.appendChild(contentDiv);
+  });
+
+  document.getElementById("pageNumber").textContent = currentPage;
+  document.getElementById("prevBtn").disabled = currentPage === 1;
+  document.getElementById("nextBtn").disabled = end >= naats.length;
+}
+
+function searchNaats() {
+  const query = document.getElementById("searchInput").value.toLowerCase();
+  const list = document.getElementById("naatList");
+  list.innerHTML = "";
+
+  const filtered = naats.filter(n => n.title.toLowerCase().includes(query));
+  filtered.forEach(naat => {
+    const li = document.createElement("li");
+    li.textContent = naat.title;
+    li.style.cursor = "pointer";
+
+    const contentDiv = document.createElement("div");
+    contentDiv.style.display = "none";
+    contentDiv.style.padding = "10px";
+    contentDiv.style.backgroundColor = "#f3f3f3";
+    contentDiv.style.border = "1px solid #ccc";
+    contentDiv.style.marginTop = "5px";
+    contentDiv.textContent = naat.content;
+
+    li.onclick = () => {
+      contentDiv.style.display = contentDiv.style.display === "none" ? "block" : "none";
+    };
+
+    list.appendChild(li);
+    list.appendChild(contentDiv);
+  });
+}
+
+function nextPage() {
+  if ((currentPage * naatsPerPage) < naats.length) {
+    currentPage++;
+    displayNaats();
   }
+}
 
-  function showContent(content) {
-    alert(content); // You can improve this with modal or collapsible card
+function prevPage() {
+  if (currentPage > 1) {
+    currentPage--;
+    displayNaats();
   }
+}
 
-  function searchNaats() {
-    const query = document.getElementById("searchInput").value.toLowerCase();
-    const list = document.getElementById("naatList");
-    list.innerHTML = "";
-
-    const filtered = naats.filter(n => n.title.toLowerCase().includes(query));
-    filtered.forEach(naat => {
-      const li = document.createElement("li");
-      li.textContent = naat.title;
-      li.onclick = () => showContent(naat.content);
-      list.appendChild(li);
-    });
-  }
-
-  function nextPage() {
-    if ((currentPage * naatsPerPage) < naats.length) {
-      currentPage++;
-      displayNaats();
-    }
-  }
-
-  function prevPage() {
-    if (currentPage > 1) {
-      currentPage--;
-      displayNaats();
-    }
-  }
-
-  displayNaats(); // Call on load
+displayNaats();
 </script>
   </body>
 </html>
